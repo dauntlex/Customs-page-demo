@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Speedaf Express — Customs Clearance Payment</title>
+<style>
+:root{
+  --navy:#121c2a; --navy2:#1b2736; --orange:#ff8a2a; --blue:#eaf3ff;
+  --text:#132038; --muted:#6f7d91; --line:#dce4ee; --bg:#f6f8fb;
+  --green:#159447; --warning:#ff8a2a; --white:#fff;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--text);background:var(--bg)}
+header{height:76px;background:var(--navy);color:white;display:flex;align-items:center;padding:0 5%;gap:46px}
+.logo{font-size:23px;font-weight:800;letter-spacing:-.7px;display:flex;align-items:center;gap:10px}
+.logo-mark{width:31px;height:27px;position:relative;display:inline-block}
+.logo-mark:before{content:"";position:absolute;left:0;top:9px;border-style:solid;border-width:7px 25px 7px 0;border-color:transparent white transparent transparent;transform:rotate(-25deg)}
+.logo-mark:after{content:"";position:absolute;right:0;top:2px;width:20px;height:5px;background:var(--orange);transform:rotate(-25deg);border-radius:4px}
+.tagline{display:block;font-size:9px;font-weight:500;letter-spacing:.1px;color:#aeb9c8;margin-top:1px}
+nav{display:flex;gap:36px;margin-left:auto;height:100%;align-items:center}
+nav a{color:#d8dee7;text-decoration:none;font-size:13px;font-weight:600;height:100%;display:flex;align-items:center;position:relative}
+nav a.active:after{content:"";position:absolute;height:3px;background:var(--orange);left:0;right:0;bottom:12px;border-radius:4px}
+.container{max-width:1070px;margin:22px auto 0;padding:0 20px}
+.hero{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:26px}
+.hero-left{display:flex;gap:16px}
+.hero-icon{width:52px;height:52px;border-radius:13px;background:#e9eef7;display:grid;place-items:center;font-size:25px}
+h1{font-size:31px;line-height:1.1;margin:3px 0 8px;letter-spacing:-1px}
+.hero p{margin:0;color:#53637a;font-size:14px;max-width:620px;line-height:1.55}
+.tracking{border-left:1px solid var(--line);padding-left:22px;min-width:275px}
+.tracking small{color:#738198;font-size:11px}
+.tracking strong{display:block;font-size:15px;margin-top:6px}
+.badge{display:inline-block;background:#ffe5cf;color:#ad560d;padding:7px 11px;border-radius:7px;font-size:10px;font-weight:800;margin-top:10px}
+.grid{display:grid;grid-template-columns:1.45fr 1fr;gap:18px}
+.card{background:#fff;border:1px solid var(--line);border-radius:6px;padding:20px;box-shadow:0 1px 2px rgba(20,38,65,.025);margin-bottom:16px}
+.card-title{display:flex;align-items:center;gap:11px;font-size:16px;font-weight:800;margin-bottom:19px}
+.card-icon{width:32px;height:32px;border-radius:9px;background:#edf2f8;display:grid;place-items:center;font-size:16px}
+.info-grid{display:grid;grid-template-columns:1fr 1fr;column-gap:42px;row-gap:18px}
+.field label{display:block;color:#7a879a;font-size:10px;margin-bottom:5px}
+.field div{font-size:12px;font-weight:650}
+.flag{font-size:13px;margin-right:6px}
+.timeline{position:relative;padding-left:27px}
+.timeline:before{content:"";position:absolute;left:8px;top:5px;bottom:7px;width:2px;background:#d9e1eb}
+.event{position:relative;min-height:44px;padding-bottom:15px;display:flex;justify-content:space-between;gap:12px}
+.dot{position:absolute;left:-27px;top:0;width:17px;height:17px;border-radius:50%;background:#aebdce;border:3px solid white;box-shadow:0 0 0 1px #aebdce}
+.event.done .dot{background:var(--green);box-shadow:0 0 0 1px var(--green)}
+.event.current .dot{background:var(--orange);box-shadow:0 0 0 1px var(--orange)}
+.event-name{font-size:11px;font-weight:700}
+.event-sub{font-size:10px;color:#7d8b9d;margin-top:4px}
+.event-time{font-size:9px;color:#78869a;white-space:nowrap;text-align:right}
+.money-row{display:flex;justify-content:space-between;padding:15px 0;border-bottom:1px solid #e4e9ef;font-size:12px}
+.money-row strong{font-size:13px}
+.total{margin-top:15px;background:#edf5ff;border-radius:7px;padding:14px;display:flex;justify-content:space-between;align-items:center}
+.total span{font-weight:800;font-size:15px}.total strong{font-size:23px}
+.muted{font-size:10px;color:#7a8799;line-height:1.5}
+.pay-card{padding:18px}
+.pay-title{font-size:16px;font-weight:800;margin-bottom:6px}
+button{border:0;cursor:pointer;font:inherit}
+.pay-btn{width:100%;background:var(--navy2);color:#fff;border-radius:6px;padding:14px;margin-top:15px;font-weight:800;font-size:12px}
+.pay-btn:hover{background:#263649}
+.secure{text-align:center;color:#75849a;font-size:10px;margin:13px 0}
+.features{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;background:#f0f6fd;padding:13px;border-radius:7px}
+.feature{text-align:center;font-size:9px;color:#66758a;line-height:1.35}
+.feature b{display:block;color:#33445a;font-size:15px;margin-bottom:4px}
+.help{background:#f2f6fa}
+.support-btn{background:white;border:1px solid #b9c8da;border-radius:6px;padding:9px 13px;font-size:10px;font-weight:750;margin-top:10px}
+footer{margin-top:45px;background:var(--navy);color:#d5dce5;padding:24px 5%;display:flex;align-items:center}
+.footer-links{margin-left:auto;display:flex;gap:23px;font-size:9px;color:#b8c1cd}
+.modal-bg{position:fixed;inset:0;background:rgba(10,19,30,.58);display:none;align-items:center;justify-content:center;padding:20px;z-index:10}
+.modal{background:#fff;width:min(470px,100%);border-radius:14px;padding:26px;box-shadow:0 20px 60px rgba(0,0,0,.25)}
+.modal h2{margin:0 0 7px;font-size:22px}.modal p{color:#68778c;font-size:12px;line-height:1.55}
+.form{display:grid;gap:10px;margin-top:18px}
+.form input{width:100%;padding:12px;border:1px solid #d5deea;border-radius:7px;font-size:12px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.modal-actions{display:flex;gap:9px;margin-top:16px}.modal-actions button{flex:1;padding:12px;border-radius:7px;font-weight:800;font-size:11px}
+.cancel{background:#edf1f5;color:#33445a}.confirm{background:var(--navy);color:white}
+.success{text-align:center;display:none}.success-icon{font-size:46px;margin:5px 0 10px}.success h2{margin-bottom:8px}
+.receipt{background:#f6f8fb;border-radius:8px;padding:14px;text-align:left;font-size:11px;margin-top:15px}
+@media(max-width:800px){
+ header{padding:0 18px;gap:18px}nav{display:none}.container{padding:0 14px}
+ .hero{display:block}.tracking{border-left:0;padding-left:0;margin-top:20px}
+ .grid{grid-template-columns:1fr}.info-grid{column-gap:20px}
+ footer{display:block}.footer-links{margin:18px 0 0;flex-wrap:wrap}
+}
+@media(max-width:480px){h1{font-size:25px}.info-grid{grid-template-columns:1fr}.features{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo"><span class="logo-mark"></span><span>Speedaf Express<span class="tagline">Global Shipments. Smoother Journeys.</span></span></div>
+  <nav>
+    <a href="#">Home</a><a href="#">Track Shipment</a><a class="active" href="#">Customs Payment</a><a href="#">Support</a>
+  </nav>
+</header>
+
+<main class="container">
+  <section class="hero">
+    <div class="hero-left">
+      <div class="hero-icon">▤</div>
+      <div>
+        <h1>Customs Clearance Payment</h1>
+        <p>Your shipment requires customs duty payment before it can be released for final delivery. Please review the details below and proceed with payment.</p>
+      </div>
+    </div>
+    <div class="tracking">
+      <small>Tracking Number</small>
+      <strong>SEPAE102*******</strong>
+      <span class="badge">Customs Clearance Required</span>
+    </div>
+  </section>
+
+  <div class="grid">
+    <div>
+      <section class="card">
+        <div class="card-title"><span class="card-icon">▣</span>Shipment Information</div>
+        <div class="info-grid">
+          <div class="field"><label>Tracking Number</label><div>SEPAE102*******</div></div>
+          <div class="field"><label>Shipment Type</label><div>International Express</div></div>
+          <div class="field"><label>Origin</label><div><span class="flag">🇨🇳</span> Shenzhen, China</div></div>
+          <div class="field"><label>Destination</label><div><span class="flag">🇳🇬</span> Lagos, Nigeria</div></div>
+          <div class="field"><label>Consignee</label><div>Jonathan Apeh</div></div>
+          <div class="field"><label>Delivery Address</label><div>92, Akpa Street, Otukpo<br>Benue State, Nigeria</div></div>
+          <div class="field"><label>Weight</label><div>12.8 kg</div></div>
+          <div class="field"><label>Goods Type</label><div>Consumer Electronics</div></div>
+          <div class="field"><label>Declared Value</label><div>$222.72</div></div>
+          <div class="field"><label>Current Location</label><div>Lagos International Airport</div></div>
+          <div class="field"><label>Estimated Delivery</label><div>28 October 2026</div></div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="card-title"><span class="card-icon">◷</span>Shipment Timeline</div>
+        <div class="timeline">
+          <div class="event done"><span class="dot"></span><div><div class="event-name">Shipment picked up</div></div><div class="event-time">14 july 2026, 10:24 AM</div></div>
+          <div class="event done"><span class="dot"></span><div><div class="event-name">Departed origin facility</div></div><div class="event-time">20 july 2026, 03:18 PM</div></div>
+          <div class="event done"><span class="dot"></span><div><div class="event-name">Arrived in Nigeria</div></div><div class="event-time">30 Sep 2026, 09:42 AM</div></div>
+          <div class="event done"><span class="dot"></span><div><div class="event-name">Customs inspection</div></div><div class="event-time">01 Oct 2026, 02:15 PM</div></div>
+          <div class="event current"><span class="dot"></span><div><div class="event-name">Customs duty payment required</div><div class="event-sub">Payment needed to proceed with clearance</div></div><div class="event-time">03 Oct 2026, 08:00 AM</div></div>
+          <div class="event"><span class="dot"></span><div><div class="event-name">Customs clearance</div></div><div class="event-time">Pending</div></div>
+          <div class="event"><span class="dot"></span><div><div class="event-name">Out for delivery</div></div><div class="event-time">Pending</div></div>
+          <div class="event"><span class="dot"></span><div><div class="event-name">Delivered</div></div><div class="event-time">Pending</div></div>
+        </div>
+      </section>
+    </div>
+
+    <aside>
+      <section class="card">
+        <div class="card-title"><span class="card-icon">▦</span>Customs Assessment</div>
+        <div class="money-row"><span>Import Duty</span><strong>₦148,500</strong></div>
+        <div class="money-row"><span>VAT</span><strong>₦39,250</strong></div>
+        <div class="money-row"><span>Customs/Processing Fee</span><strong>₦5,000</strong></div>
+        <div class="total"><span>Total Due</span><strong>₦192,750</strong></div>
+      </section>
+
+      <section class="card pay-card">
+        <div class="card-title"><span class="card-icon">▣</span>Proceed to Payment</div>
+        <div class="muted">Complete your payment to enable customs clearance and release your shipment.</div>
+        <button class="pay-btn" onclick="openModal()">▣ &nbsp; Proceed to Payment</button>
+        <div class="secure">♙ &nbsp; Secure &amp; Encrypted</div>
+        <div class="features">
+          <div class="feature"><b>♢</b>Safe and secure<br>payment process</div>
+          <div class="feature"><b>▤</b>Multiple payment<br>options available</div>
+          <div class="feature"><b>ϟ</b>Instant confirmation<br>and tracking update</div>
+        </div>
+      </section>
+
+      <section class="card help">
+        <div class="card-title"><span class="card-icon">▱</span>Need help?</div>
+        <div class="muted">Our support team is available to assist you with your shipment.</div>
+        <button class="support-btn" onclick="location.href='#'">♧ &nbsp; Contact Support</button>
+      </section>
+    </aside>
+  </div>
+</main>
+
+<footer>
+  <div class="logo"><span class="logo-mark"></span><span>Speedaf Express<span class="tagline">Global Shipments. Smoother Journeys.</span></span></div>
+  <div class="footer-links"><span>Home</span><span>Track Shipment</span><span>Customs Payment</span><span>Support</span><span>Privacy Policy</span><span>Terms of Service</span></div>
+</footer>
+
+<div class="modal-bg" id="modal">
+  <div class="modal">
+    <div id="paymentView">
+      <h2>Payment Details</h2>
+      <p>Enter your payment details below to complete customs clearance.</p>
+      <div class="form">
+        <input placeholder="Cardholder name">
+        <input placeholder="Card number">
+        <div class="form-row"><input placeholder="MM / YY"><input placeholder="CVC"></div>
+      </div>
+      <div class="modal-actions">
+        <button class="cancel" onclick="closeModal()">Cancel</button>
+        <button class="confirm" onclick="completePayment()">Pay ₦192,750</button>
+      </div>
+    </div>
+    <div class="success" id="successView">
+      <div class="success-icon">✓</div>
+      <h2>Payment Successful</h2>
+      <p>Your payment has been received and your shipment has been cleared for final delivery.</p>
+      <div class="receipt">
+        <b>Reference:</b> SPD-874291<br><br>
+        <b>Tracking:</b> SEPAE102*******<br><br>
+        <b>Amount:</b> ₦192,750<br><br>
+        <b>Status:</b> Customs clearance processing
+      </div>
+      <button class="confirm" style="width:100%;margin-top:15px" onclick="closeModal()">Close</button>
+    </div>
+  </div>
+</div>
+
+<script>
+function openModal(){document.getElementById('modal').style.display='flex'}
+function closeModal(){document.getElementById('modal').style.display='none'}
+function completePayment(){
+  document.getElementById('paymentView').style.display='none';
+  document.getElementById('successView').style.display='block';
+}
+document.getElementById('modal').addEventListener('click',e=>{if(e.target.id==='modal')closeModal()});
+</script>
+</body>
+</html>
